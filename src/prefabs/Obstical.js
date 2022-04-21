@@ -14,38 +14,38 @@ class Obstical extends Phaser.GameObjects.Sprite {
                 object will take in the Y direction we get the distance per increment that the object will need to take
                 in the X direction. This is stored in xIncrements.
                 */
-                xIncrements = 124/(542*objSpeed);
+                xIncrements = 124*objSpeed/(542);
                 break;                            
             case 2:
                 x = 256;
-                xIncrements = 92/(542*objSpeed);
+                xIncrements = 92*objSpeed/(542);
                 break;
             case 3:
                 x = 288;
-                xIncrements = 64/(542*objSpeed);
+                xIncrements = 64*objSpeed/(542);
                 break;
             case 4:
                 x = 320;
-                xIncrements = 32/(542*objSpeed);
+                xIncrements = 32*objSpeed/(542);
                 break;
             case 5:
                 x = 352;
                 break;
             case 6:
                 x = 384;
-                xIncrements = 32/(542*objSpeed);
+                xIncrements = 32*objSpeed/(542);
                 break;
             case 7:
                 x = 416;
-                xIncrements = 64/(542*objSpeed);
+                xIncrements = 64*objSpeed/(542);
                 break;
             case 8:
                 x = 448;
-                xIncrements = 96/(542*objSpeed);
+                xIncrements = 96*objSpeed/(542);
                 break;
             case 9:
                 x = 480;
-                xIncrements = 124/(542*objSpeed);
+                xIncrements = 124*objSpeed/(542);
                 break;
         }
 
@@ -62,7 +62,7 @@ class Obstical extends Phaser.GameObjects.Sprite {
 
         //The increments that the object will move each time update is called in the game loop
         this.xSpeed = xIncrements;
-        this.ySpeed = 542/(542*objSpeed); //Scaled to 1 to reduce large numbers in constructor
+        this.ySpeed = 542*objSpeed/(542); //Scaled to 1 to reduce large numbers in constructor
     }
 
     update() {
