@@ -9,7 +9,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.lastUPState = true;
         this.isJumping = false;
         this.reachedApex = false;
-        this.jumpInvenCount = 1;
+        this.jumpInvenCount = 1.5;
         this.invulIInvenCount = 0;
         this.spdInvenCount = 0;
     }
@@ -30,9 +30,11 @@ class Player extends Phaser.GameObjects.Sprite{
             // scaling performs at a constant rate but the apex flag determines how "long" the scaling runs for
             if(!this.reachedApex){
                 newScale = this.scaleX + this.jumpInvenCount / (250 + (this.jumpInvenCount * 100) / 2);
+                this.y -= 0.5;
             }
             else if(this.reachedApex){
                 newScale = this.scaleX - this.jumpInvenCount / (250 + (this.jumpInvenCount * 100) / 2);
+                this.y += 0.5;
             }
             if(newScale <= 1 && this.reachedApex){
                 this.isJumping = false;
@@ -41,7 +43,6 @@ class Player extends Phaser.GameObjects.Sprite{
             }
             this.setScale(newScale);
         }
-        //console.log("HERE", this.isJumping);
         // if current up state is true and last up state is false
         // then we know that the key was released
         if(keyLEFT.isUp && !this.lastLEFTUpState){
@@ -56,7 +57,6 @@ class Player extends Phaser.GameObjects.Sprite{
                 this.lane += 1;
             }
         }
-        
         this.lastLEFTUpState = keyLEFT.isUp;
         this.lastRIGHTUpState = keyRIGHT.isUp;
         this.lastUPState = keySPACE.isUp;

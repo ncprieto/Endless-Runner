@@ -7,7 +7,7 @@ class Play extends Phaser.Scene{
         this.load.image('player', './assets/white.png');
     }
     create(){
-        let spd = 0.5;
+        let spd = 1;
         this.square1 = new Obstical(this, 'square', 0, 1, 1, spd).setOrigin(0.5, 0);
         this.square3 = new Obstical(this, 'square', 0, 1, 3, spd).setOrigin(0.5, 0);
         this.square5 = new Obstical(this, 'square', 0, 1, 5, spd).setOrigin(0.5, 0);
