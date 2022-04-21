@@ -4,15 +4,16 @@ class Play extends Phaser.Scene{
     }
     preload(){
         this.load.image('square', './assets/square.png');
+        this.load.image('wall', './assets/metal_wall.png');
         this.load.image('player', './assets/white.png');
     }
     create(){
         let spd = 0.5;
-        this.square1 = new Obstical(this, 'square', 0, 1, 1, spd).setOrigin(0.5, 0);
-        this.square3 = new Obstical(this, 'square', 0, 1, 3, spd).setOrigin(0.5, 0);
-        this.square5 = new Obstical(this, 'square', 0, 1, 5, spd).setOrigin(0.5, 0);
-        this.square7 = new Obstical(this, 'square', 0, 1, 7, spd).setOrigin(0.5, 0);
-        this.square9 = new Obstical(this, 'square', 0, 1, 9, spd).setOrigin(0.5, 0);
+        this.square1 = new Obstical(this, 'wall', 0, 1, spd).setOrigin(0.5, 0);
+        this.square3 = new Obstical(this, 'wall', 0, 3, spd).setOrigin(0.5, 0);
+        this.square5 = new Obstical(this, 'wall', 0, 5, spd).setOrigin(0.5, 0);
+        this.square7 = new Obstical(this, 'wall', 0, 7, spd).setOrigin(0.5, 0);
+        this.square9 = new Obstical(this, 'wall', 0, 9, spd).setOrigin(0.5, 0);
 
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
