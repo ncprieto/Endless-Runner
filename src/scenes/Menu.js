@@ -5,7 +5,7 @@ class Menu extends Phaser.Scene{
     preload(){
     }
     create(){
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -18,10 +18,10 @@ class Menu extends Phaser.Scene{
             },
             fixedWidth: 0
         }
-        this.add.text(game.config.width/2, game.config.height/2, 'press space to play', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'press f to play', menuConfig).setOrigin(0.5);
     }
     update(){
-        if(Phaser.Input.Keyboard.JustDown(keySPACE)){
+        if(Phaser.Input.Keyboard.JustDown(keyF)){
             this.scene.start('playScene');
         }
     }

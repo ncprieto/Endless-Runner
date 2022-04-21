@@ -1,7 +1,7 @@
 class Obstical extends Phaser.GameObjects.Sprite {
     constructor(scene, texture, frame, hitValue, laneNumber, objSpeed) {
         let x = 0;              //initliaze x to be used in case
-        let y = 50              //Y value should be same across all
+        let y = 50;              //Y value should be same across all
 
         let xIncrements = 0;    //increments to determine how fast object moves left or right
 
@@ -68,8 +68,6 @@ class Obstical extends Phaser.GameObjects.Sprite {
     update() {
         //Set scale to 1 as it gets closer to the bottom setting it in the range of [0.5, 1]
         this.setScale(0.5*(this.y/this.yTarget) + 0.5);
-
-
         //move in y direction in increments specified by this.ySpeed
         if(this.y <= game.config.height) {
             this.y += this.ySpeed;
