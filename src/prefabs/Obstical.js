@@ -1,5 +1,5 @@
 class Obstical extends Phaser.GameObjects.Sprite {
-    constructor(scene, texture, frame, hitValue, laneNumber, objSpeed) {
+    constructor(scene, texture, frame, laneNumber, objSpeed) {
         let x = 0;              //initliaze x to be used in case
         let y = 50;              //Y value should be same across all
 
