@@ -5,7 +5,7 @@ class Play extends Phaser.Scene{
     preload(){
         this.load.image('square', './assets/square.png');
         this.load.image('wall', './assets/metal_wall.png');
-        this.load.image('player', './assets/white.png');
+        this.load.image('player', './assets/robo_player.png');
     }
     create(){
         let spd = 0.5;

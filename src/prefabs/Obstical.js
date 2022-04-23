@@ -52,7 +52,6 @@ class Obstical extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);   // add to existing scene
 
-        this.damage = hitValue;
 
         this.lane = laneNumber;   
         this.setScale(0.5);
