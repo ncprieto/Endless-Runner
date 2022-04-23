@@ -1,4 +1,4 @@
-class ItemBlock extends Obstical{
+class ItemBlock extends Obstacle{
     constructor(scene, texture, frame, laneNumber, objSpeed){
         super(scene, texture, frame, laneNumber, objSpeed);
         scene.add.existing(this);

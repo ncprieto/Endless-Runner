@@ -9,11 +9,11 @@ class Play extends Phaser.Scene{
     }
     create(){
         let spd = 1;
-        // this.square1 = new Obstical(this, 'wall', 0, 1, spd).setOrigin(0.5, 0);
-        // this.square3 = new Obstical(this, 'wall', 0, 3, spd).setOrigin(0.5, 0);
-        // this.square5 = new Obstical(this, 'wall', 0, 5, spd).setOrigin(0.5, 0);
-        // this.square7 = new Obstical(this, 'wall', 0, 7, spd).setOrigin(0.5, 0);
-        // this.square9 = new Obstical(this, 'wall', 0, 9, spd).setOrigin(0.5, 0);
+        // this.square1 = new Obstacle(this, 'wall', 0, 1, spd).setOrigin(0.5, 0);
+        // this.square3 = new Obstacle(this, 'wall', 0, 3, spd).setOrigin(0.5, 0);
+        // this.square5 = new Obstacle(this, 'wall', 0, 5, spd).setOrigin(0.5, 0);
+        // this.square7 = new Obstacle(this, 'wall', 0, 7, spd).setOrigin(0.5, 0);
+        // this.square9 = new Obstacle(this, 'wall', 0, 9, spd).setOrigin(0.5, 0);
 
         this.itemBlock = new ItemBlock(this, 'square', 0, 5, spd).setOrigin(0.5, 0);
 
