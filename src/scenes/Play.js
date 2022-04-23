@@ -8,12 +8,14 @@ class Play extends Phaser.Scene{
         this.load.image('player', './assets/robo_player.png');
     }
     create(){
-        let spd = 0.5;
-        this.square1 = new Obstical(this, 'wall', 0, 1, spd).setOrigin(0.5, 0);
-        this.square3 = new Obstical(this, 'wall', 0, 3, spd).setOrigin(0.5, 0);
-        this.square5 = new Obstical(this, 'wall', 0, 5, spd).setOrigin(0.5, 0);
-        this.square7 = new Obstical(this, 'wall', 0, 7, spd).setOrigin(0.5, 0);
-        this.square9 = new Obstical(this, 'wall', 0, 9, spd).setOrigin(0.5, 0);
+        let spd = 1;
+        // this.square1 = new Obstical(this, 'wall', 0, 1, spd).setOrigin(0.5, 0);
+        // this.square3 = new Obstical(this, 'wall', 0, 3, spd).setOrigin(0.5, 0);
+        // this.square5 = new Obstical(this, 'wall', 0, 5, spd).setOrigin(0.5, 0);
+        // this.square7 = new Obstical(this, 'wall', 0, 7, spd).setOrigin(0.5, 0);
+        // this.square9 = new Obstical(this, 'wall', 0, 9, spd).setOrigin(0.5, 0);
+
+        this.itemBlock = new ItemBlock(this, 'square', 0, 5, spd).setOrigin(0.5, 0);
 
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
@@ -25,19 +27,46 @@ class Play extends Phaser.Scene{
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
     update(){
-        this.square1.update();
-        this.square3.update();
-        this.square5.update();
-        this.square7.update();
-        this.square9.update();
+        // this.square1.update();
+        // this.square3.update();
+        // this.square5.update();
+        // this.square7.update();
+        // this.square9.update();
+        this.itemBlock.update();
 
         this.player.update();
-        console.log(this.checkCollision(this.player, this.square5));
-        
 
+        // these conditionals decide if the player receives an item
+        // checkCollision spams true when colliding with an object
+        // so in order to not give out a bunch of powerups we decide if the
+        // player has just received one or not
+        let itemCheck = this.checkCollision(this.player, this.itemBlock);
+        // if colliding with block and didn't just receive an item give them one
+        if(itemCheck && !this.player.itemJustReceived){
+            let pUp = this.itemBlock.giveRandpUp();
+            switch (pUp){
+                case 'speed':
+                    this.player.inventory.speed += 0.5
+                    break;
+                case 'jump':
+                    this.player.inventory.jump += 0.5
+                    break;
+                case 'invuln':
+                    this.player.inventory.invuln += 1;
+            }
+            console.log(pUp);
+            this.player.itemJustReceived = true;
+        }
+        // if not colliding and just received one then set itemJustReceived to false
+        // can infer that the item block is "physically" behind the player
+        else if(!itemCheck && this.player.itemJustReceived){
+            this.player.itemJustReceived = false;
+        }
     }
-    // add checking for if player is jumping
     checkCollision(player, obs){
+        if(obs instanceof ItemBlock && obs.scaleX > 0.97 && obs.scaleX < 1){
+            return true;
+        }
         if(obs.scaleX >= 1.05){
             return false;
         }

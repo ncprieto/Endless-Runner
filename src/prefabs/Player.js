@@ -9,9 +9,13 @@ class Player extends Phaser.GameObjects.Sprite{
         this.lastUPState = true;
         this.isJumping = false;
         this.reachedApex = false;
-        this.jumpInvenCount = 1.5;
-        this.invulIInvenCount = 0;
-        this.spdInvenCount = 0;
+        // added inventory obj for consolidating powerups
+        this.inventory = {
+            jump: 1.5,
+            invuln: 0,
+            speed: 0
+        };
+        this.itemJustReceived = false;
     }
     create(){
     }
@@ -22,18 +26,18 @@ class Player extends Phaser.GameObjects.Sprite{
         if(this.isJumping){
             let newScale;
             // finds whether the scale of the spirte has reached the apex of the jump
-            if(this.scaleX >= (1 + (this.jumpInvenCount / 7))){
+            if(this.scaleX >= (1 + (this.inventory.jump / 7))){
                 this.reachedApex = true;
             }
             // slowly increment the scale of the sprite based on current scaleX and this equation
-            // this.jumpInvenCount / (250 + (this.jumpInvenCount * 100) / 2) controls the air time of the sprite
+            // this.inventory.jump / (250 + (this.inventory.jump * 100) / 2) controls the air time of the sprite
             // scaling performs at a constant rate but the apex flag determines how "long" the scaling runs for
             if(!this.reachedApex){
-                newScale = this.scaleX + this.jumpInvenCount / (250 + (this.jumpInvenCount * 100) / 2);
+                newScale = this.scaleX + this.inventory.jump / (250 + (this.inventory.jump * 100) / 2);
                 this.y -= 0.5;
             }
             else if(this.reachedApex){
-                newScale = this.scaleX - this.jumpInvenCount / (250 + (this.jumpInvenCount * 100) / 2);
+                newScale = this.scaleX - this.inventory.jump / (250 + (this.inventory.jump * 100) / 2);
                 this.y += 0.5;
             }
             if(newScale <= 1 && this.reachedApex){
