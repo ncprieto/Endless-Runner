@@ -1,14 +1,53 @@
 class Obstacle extends Phaser.GameObjects.Sprite {
-    constructor(scene, texture, frame, laneNumber, objSpeed) {
-        let x = 0;              //initliaze x to be used in case
-        let y = 50;              //Y value should be same across all
+    constructor(scene, texture, frame, laneNumber) {
+        let x = 224 + ((laneNumber - 1) * 32);   //initliaze x
+        let y = 50;                           //Y value should be same across all
 
+        super(scene, x, y, texture, frame);
+        scene.add.existing(this);             // add to existing scene
+
+        this.lane = laneNumber;   
+        this.setScale(0.5);
+        
+        //yTarget same throughout board
+        this.yTarget = 592;
+
+        // flag for deciding if this object is actively moving or not
+        this.active = false;
+    }
+    update(playerSpeed) {
+        this.getXYSpeed(playerSpeed);
+        //Set scale to 1 as it gets closer to the bottom setting it in the range of [0.5, 1]
+        this.setScale(0.5*(this.y/this.yTarget) + 0.5);
+        //move in y direction in increments specified by this.ySpeed
+        if(this.y <= game.config.height && this.active) {
+            this.y += this.ySpeed;
+        }
+        //move in x direction in increments specified by this.xSpeed
+        if(this.lane > 5 && this.active) {
+            this.x += this.xSpeed;
+        }
+        else if(this.lane < 5 && this.active){
+            this.x -= this.xSpeed;
+        }
+        if(this.y >= 720 && this.active){
+            this.reset();
+        }
+    }
+    reset(){
+        this.active = false;
+        this.y = 50;
+        this.x = 224 + ((this.lane - 1) * 32);
+    }
+    // moved objSpeed determiner to this function
+    // this makes dynamically updating the speed of an object possible
+    // this is called with every update so that when the player speed
+    // is increased the speed of the obj is also increased
+    getXYSpeed(objSpeed){
         let xIncrements = 0;    //increments to determine how fast object moves left or right
 
-        switch(laneNumber) {    //Depending on case create obj at that x coordinate
+        switch(this.lane) {    //Depending on case create obj at that x coordinate
             case 1:
-                //Here we say where the obj will be created initially
-                x = 224;
                 /*By taking the difference between where the obj spawned and where it needs to go we know how far the 
                 object must travel in the x direction. Then by dividing that distance by the amount of increments the 
                 object will take in the Y direction we get the distance per increment that the object will need to take
@@ -17,67 +56,29 @@ class Obstacle extends Phaser.GameObjects.Sprite {
                 xIncrements = 124*objSpeed/(542);
                 break;                            
             case 2:
-                x = 256;
                 xIncrements = 92*objSpeed/(542);
                 break;
             case 3:
-                x = 288;
                 xIncrements = 64*objSpeed/(542);
                 break;
             case 4:
-                x = 320;
                 xIncrements = 32*objSpeed/(542);
                 break;
-            case 5:
-                x = 352;
-                break;
             case 6:
-                x = 384;
                 xIncrements = 32*objSpeed/(542);
                 break;
             case 7:
-                x = 416;
                 xIncrements = 64*objSpeed/(542);
                 break;
             case 8:
-                x = 448;
                 xIncrements = 96*objSpeed/(542);
                 break;
             case 9:
-                x = 480;
                 xIncrements = 124*objSpeed/(542);
                 break;
         }
-
-        super(scene, x, y, texture, frame);
-        scene.add.existing(this);   // add to existing scene
-
-
-        this.lane = laneNumber;   
-        this.setScale(0.5);
-        
-        //yTarget same throughout board
-        this.yTarget = 592;
-
         //The increments that the object will move each time update is called in the game loop
         this.xSpeed = xIncrements;
         this.ySpeed = 542*objSpeed/(542); //Scaled to 1 to reduce large numbers in constructor
-    }
-
-    update() {
-        //Set scale to 1 as it gets closer to the bottom setting it in the range of [0.5, 1]
-        this.setScale(0.5*(this.y/this.yTarget) + 0.5);
-        //move in y direction in increments specified by this.ySpeed
-        if(this.y <= game.config.height) {
-            this.y += this.ySpeed;
-        }
-        
-        //move in x direction in increments specified by this.xSpeed
-        if(this.lane > 5) {
-            this.x += this.xSpeed;
-        }
-        else {
-            this.x -= this.xSpeed;
-        }
     }
 }

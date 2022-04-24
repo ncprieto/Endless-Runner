@@ -11,11 +11,12 @@ class Player extends Phaser.GameObjects.Sprite{
         this.reachedApex = false;
         // added inventory obj for consolidating powerups
         this.inventory = {
-            jump: 1.5,
+            jump: 1,
             invuln: 0,
-            speed: 0
+            speed: 1
         };
         this.itemJustReceived = false;
+        this.health = 10;
     }
     create(){
     }
