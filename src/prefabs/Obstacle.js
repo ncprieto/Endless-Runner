@@ -1,6 +1,6 @@
 class Obstacle extends Phaser.GameObjects.Sprite {
     constructor(scene, texture, frame, laneNumber) {
-        let x = 224 + ((laneNumber - 1) * 32);   //initliaze x
+        let x = 256 + ((laneNumber - 1) * 32);   //initliaze x
         let y = 50;                           //Y value should be same across all
 
         super(scene, x, y, texture, frame);
