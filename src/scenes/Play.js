@@ -22,7 +22,7 @@ class Play extends Phaser.Scene{
 
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
-        this.player = new Player(this, laneWidth * 5 + 32, game.config.height - laneWidth * 2, 'player', 0, 5).setOrigin(0.5,0);
+        this.player = new Player(this, laneWidth * 5 + 32, game.config.height - laneWidth * 2, 'player', 0, 4).setOrigin(0.5,0);
 
         //Keys for input
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -31,9 +31,8 @@ class Play extends Phaser.Scene{
 
         // obs spawn timer event
         // executes every second and 1/2, slowly increases based on player speed
-        this.upperSpawnBound = 2000;
-        this.lowerSpawnBound = 1000;
-        this.spawnObsClock = this.time.addEvent({delay: this.upperSpawnBound, callback: this.spawnObj, callbackScope: this, loop: true});
+        this.obsSpawnRate = 1500;
+        this.spawnObsClock = this.time.addEvent({delay: this.obsSpawnRate, callback: this.spawnObj, callbackScope: this, loop: true});
         // item block spawn event happens every 6 seconds
         this.itemSpawnRate = 6000;
         this.spawnItemClock = this.time.addEvent({delay: this.itemSpawnRate, callback: this.spawnItemBlock, callbackScope: this, loop: true});
@@ -52,7 +51,7 @@ class Play extends Phaser.Scene{
             this.itemBlock.update(this.player.inventory.speed);
             this.player.update();
         }
-        this.player.update();
+        
 
         //these conditionals decide if the player receives an item
         //checkCollision spams true when colliding with an object
@@ -63,9 +62,7 @@ class Play extends Phaser.Scene{
             let pUp = this.itemBlock.giveRandpUp();
             switch (pUp){
                 case 'speed':
-                    this.player.inventory.speed += 0.5;
-                    this.upperSpawnBound -= 100;
-                    this.lowerSpawnBound -= 50;
+                    this.player.inventory.speed += 1;
                     this.adjustSpawnRate();
                     break;
                 case 'jump':
@@ -240,26 +237,23 @@ class Play extends Phaser.Scene{
     }
     // spawnItemBlock works similar to obs spawning
     // choose a lane number between 2 and 7 and spawn it from that lane
-    spawnItemBlock(obs){
-        let laneNum = Math.floor(Math.random() * (7 - 2) + 2);
-        this.itemBlock.lane = laneNum;
-        this.itemBlock.reset();
-        this.itemBlock.active = true;
+    spawnItemBlock(){
+        if(!this.itemBlock.active){
+            let laneNum = Math.floor(Math.random() * (7 - 1) + 1);
+            this.itemBlock.lane = laneNum;
+            this.itemBlock.reset();
+            this.itemBlock.active = true;
+        }
     }
     // adjustSpawnRate adjusts rate at which obs timer events trigger
     // upper and lower bound slowly decrease and player gain more speed
     // essentially makes the spawing of obs faster giving illusion that player
     // is also moving fastert
     adjustSpawnRate(){
-        if(this.upperSpawnBound < 600){
-            this.upperSpawnBound = 600;
-        }
-        if(this.lowerSpawnBound < 300){
-            this.lowerSpawnBound = 300;
-        }
-        // this next line chooses a number between the lower and upper bounds
-        // and sets it as the timer for the next obs spawn event
-        let spawnWindow = Math.floor(Math.random() * ((this.upperSpawnBound - (this.player.inventory.speed * this.upperSpawnBound) / 10) - this.lowerSpawnBound) + this.lowerSpawnBound);
-        this.spawnObsClock.delay = spawnWindow;
+        this.obsSpawnRate -= 200;
+        // if(this.obsSpawnRate < 100){
+        //     this.obsSpawnRate = 100;
+        // }
+        console.log(this.obsSpawnRate);
     }
 }
