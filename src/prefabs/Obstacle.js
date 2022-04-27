@@ -24,10 +24,10 @@ class Obstacle extends Phaser.GameObjects.Sprite {
             this.y += this.ySpeed;
         }
         //move in x direction in increments specified by this.xSpeed
-        if(this.lane > 5 && this.active) {
+        if(this.lane > 4 && this.active) {
             this.x += this.xSpeed;
         }
-        else if(this.lane < 5 && this.active){
+        else if(this.lane < 4 && this.active){
             this.x -= this.xSpeed;
         }
         if(this.y >= 720 && this.active){
@@ -37,7 +37,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
     reset(){
         this.active = false;
         this.y = 50;
-        this.x = 224 + ((this.lane - 1) * 32);
+        this.x = 256 + ((this.lane - 1) * 32);
     }
     // moved objSpeed determiner to this function
     // this makes dynamically updating the speed of an object possible
@@ -47,34 +47,28 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         let xIncrements = 0;    //increments to determine how fast object moves left or right
 
         switch(this.lane) {    //Depending on case create obj at that x coordinate
-            case 1:
                 /*By taking the difference between where the obj spawned and where it needs to go we know how far the 
                 object must travel in the x direction. Then by dividing that distance by the amount of increments the 
                 object will take in the Y direction we get the distance per increment that the object will need to take
                 in the X direction. This is stored in xIncrements.
-                */
-                xIncrements = 124*objSpeed/(542);
-                break;                            
-            case 2:
+                */                          
+            case 1:
                 xIncrements = 92*objSpeed/(542);
                 break;
-            case 3:
+            case 2:
                 xIncrements = 64*objSpeed/(542);
                 break;
-            case 4:
+            case 3:
+                xIncrements = 32*objSpeed/(542);
+                break;
+            case 5:
                 xIncrements = 32*objSpeed/(542);
                 break;
             case 6:
-                xIncrements = 32*objSpeed/(542);
-                break;
-            case 7:
                 xIncrements = 64*objSpeed/(542);
                 break;
-            case 8:
+            case 7:
                 xIncrements = 96*objSpeed/(542);
-                break;
-            case 9:
-                xIncrements = 124*objSpeed/(542);
                 break;
         }
         //The increments that the object will move each time update is called in the game loop

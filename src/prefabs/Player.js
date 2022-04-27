@@ -51,13 +51,13 @@ class Player extends Phaser.GameObjects.Sprite{
         // if current up state is true and last up state is false
         // then we know that the key was released
         if(keyLEFT.isUp && !this.lastLEFTUpState){
-            if(this.x > laneWidth + 32){
+            if(this.x > laneWidth + 96){
                 this.x -= laneWidth;
                 this.lane -= 1;
             }
         }
         if(keyRIGHT.isUp && !this.lastRIGHTUpState){
-            if(this.x < game.config.width - (laneWidth * 2)){
+            if(this.x < game.config.width - (laneWidth * 3)){
                 this.x += laneWidth;
                 this.lane += 1;
             }

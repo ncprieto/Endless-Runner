@@ -8,17 +8,17 @@ class Play extends Phaser.Scene{
         this.load.image('player', './assets/robo_player.png');
     }
     create(){
-        this.obs1 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
-        this.obs2 = new Obstacle(this, 'wall', 0, 3).setOrigin(0.5, 0);
-        this.obs3 = new Obstacle(this, 'wall', 0, 4).setOrigin(0.5, 0);
-        this.obs4 = new Obstacle(this, 'wall', 0, 5).setOrigin(0.5, 0);
-        this.obs5 = new Obstacle(this, 'wall', 0, 6).setOrigin(0.5, 0);
-        this.obs6 = new Obstacle(this, 'wall', 0, 7).setOrigin(0.5, 0);
-        this.obs7 = new Obstacle(this, 'wall', 0, 8).setOrigin(0.5, 0);
+        this.obs1 = new Obstacle(this, 'wall', 0, 1).setOrigin(0.5, 0);
+        this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
+        this.obs3 = new Obstacle(this, 'wall', 0, 3).setOrigin(0.5, 0);
+        this.obs4 = new Obstacle(this, 'wall', 0, 4).setOrigin(0.5, 0);
+        this.obs5 = new Obstacle(this, 'wall', 0, 5).setOrigin(0.5, 0);
+        this.obs6 = new Obstacle(this, 'wall', 0, 6).setOrigin(0.5, 0);
+        this.obs7 = new Obstacle(this, 'wall', 0, 7).setOrigin(0.5, 0);
 
 
         //item block init
-        this.itemBlock = new ItemBlock(this, 'square', 0, 5).setOrigin(0.5, 0);
+        this.itemBlock = new ItemBlock(this, 'square', 0, 4).setOrigin(0.5, 0);
 
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
@@ -52,7 +52,7 @@ class Play extends Phaser.Scene{
             this.itemBlock.update(this.player.inventory.speed);
             this.player.update();
         }
-        
+        this.player.update();
 
         //these conditionals decide if the player receives an item
         //checkCollision spams true when colliding with an object
@@ -189,49 +189,49 @@ class Play extends Phaser.Scene{
         switch(obsNum){
             case 1:
                 if(!this.obs1.active){
-                    this.obs1.lane = Math.floor(Math.random() * (9 - 1) + 1); // assign obs to be spawned new lane to spawn from
+                    this.obs1.lane = Math.floor(Math.random() * (7 - 1) + 1); // assign obs to be spawned new lane to spawn from
                     this.obs1.reset();                                        // reset gives us correct x position to spawn from
                     this.obs1.active = true;
                     break;
                 }
             case 2:
                 if(!this.obs2.active){
-                    this.obs2.lane = Math.floor(Math.random() * (9 - 1) + 1);
+                    this.obs2.lane = Math.floor(Math.random() * (7 - 1) + 1);
                     this.obs2.reset();
                     this.obs2.active = true;
                     break;
                 }
             case 3:
                 if(!this.obs3.active){
-                    this.obs3.lane = Math.floor(Math.random() * (9 - 1) + 1);
+                    this.obs3.lane = Math.floor(Math.random() * (7 - 1) + 1);
                     this.obs3.reset();
                     this.obs3.active = true;
                     break;
                 }
             case 4:
                 if(!this.obs4.active){
-                    this.obs4.lane = Math.floor(Math.random() * (9 - 1) + 1);
+                    this.obs4.lane = Math.floor(Math.random() * (7 - 1) + 1);
                     this.obs4.reset();
                     this.obs4.active = true;
                     break;
                 }
             case 5:
                 if(!this.obs5.active){
-                    this.obs5.lane = Math.floor(Math.random() * (9 - 1) + 1);
+                    this.obs5.lane = Math.floor(Math.random() * (7 - 1) + 1);
                     this.obs5.reset();
                     this.obs5.active = true;
                     break;
                 }
             case 6:
                 if(!this.obs6.active){
-                    this.obs6.lane = Math.floor(Math.random() * (9 - 1) + 1);
+                    this.obs6.lane = Math.floor(Math.random() * (7 - 1) + 1);
                     this.obs6.reset();
                     this.obs6.active = true;
                     break;
                 }
             case 7:
                 if(!this.obs7.active){
-                    this.obs7.lane = Math.floor(Math.random() * (9 - 1) + 1);
+                    this.obs7.lane = Math.floor(Math.random() * (7 - 1) + 1);
                     this.obs7.reset();
                     this.obs7.active = true;
                     break;
