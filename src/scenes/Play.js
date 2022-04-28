@@ -16,13 +16,14 @@ class Play extends Phaser.Scene{
         this.obs6 = new Obstacle(this, 'wall', 0, 6).setOrigin(0.5, 0);
         this.obs7 = new Obstacle(this, 'wall', 0, 7).setOrigin(0.5, 0);
 
-
+        this.obsArr = [this.obs1, this.obs2, this.obs3, this.obs4, this.obs5, this.obs6, this.obs7];
         //item block init
         this.itemBlock = new ItemBlock(this, 'square', 0, 4).setOrigin(0.5, 0);
 
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
         this.player = new Player(this, laneWidth * 5 + 32, game.config.height - laneWidth * 2, 'player', 0, 4).setOrigin(0.5,0);
+        //this.player.setDepth(0);
 
         //Keys for input
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -59,25 +60,17 @@ class Play extends Phaser.Scene{
         //player has just received one or not
         let itemCheck = this.checkCollision(this.player, this.itemBlock);
         if(itemCheck && !this.player.itemJustReceived){
-            let pUp = this.itemBlock.giveRandpUp();
-            switch (pUp){
-                case 'speed':
-                    this.player.inventory.speed += 1;
-                    this.adjustSpawnRate();
-                    break;
-                case 'jump':
-                    this.player.inventory.jump += 0.5;
-                    break;
-                case 'invuln':
-                    this.player.inventory.invuln += 1;
-                    break;
+            let spdCheck = this.itemBlock.giveRandpUp(this.player, this.obsSpawnRate);
+            if(spdCheck){
+                this.adjustSpawnRate();
             }
-            console.log(pUp);
+            console.log(this.obsSpawnRate);
             this.player.itemJustReceived = true;
         }
         else if(!itemCheck && this.player.itemJustReceived){
             this.player.itemJustReceived = false;
         }
+
 
         // collision detection between player and obs1
         // similar to checking for item collision detection
@@ -182,58 +175,72 @@ class Play extends Phaser.Scene{
     // if that obs it picked it already spawned an moving then
     // it moves to the next case below it and repeats
     spawnObj(){
-        let obsNum = Math.floor(Math.random() * (7 - 1) + 1);
-        switch(obsNum){
-            case 1:
-                if(!this.obs1.active){
-                    this.obs1.lane = Math.floor(Math.random() * (7 - 1) + 1); // assign obs to be spawned new lane to spawn from
-                    this.obs1.reset();                                        // reset gives us correct x position to spawn from
-                    this.obs1.active = true;
-                    break;
-                }
-            case 2:
-                if(!this.obs2.active){
-                    this.obs2.lane = Math.floor(Math.random() * (7 - 1) + 1);
-                    this.obs2.reset();
-                    this.obs2.active = true;
-                    break;
-                }
-            case 3:
-                if(!this.obs3.active){
-                    this.obs3.lane = Math.floor(Math.random() * (7 - 1) + 1);
-                    this.obs3.reset();
-                    this.obs3.active = true;
-                    break;
-                }
-            case 4:
-                if(!this.obs4.active){
-                    this.obs4.lane = Math.floor(Math.random() * (7 - 1) + 1);
-                    this.obs4.reset();
-                    this.obs4.active = true;
-                    break;
-                }
-            case 5:
-                if(!this.obs5.active){
-                    this.obs5.lane = Math.floor(Math.random() * (7 - 1) + 1);
-                    this.obs5.reset();
-                    this.obs5.active = true;
-                    break;
-                }
-            case 6:
-                if(!this.obs6.active){
-                    this.obs6.lane = Math.floor(Math.random() * (7 - 1) + 1);
-                    this.obs6.reset();
-                    this.obs6.active = true;
-                    break;
-                }
-            case 7:
-                if(!this.obs7.active){
-                    this.obs7.lane = Math.floor(Math.random() * (7 - 1) + 1);
-                    this.obs7.reset();
-                    this.obs7.active = true;
-                    break;
-                }
+        let count = 0;
+        let obs = this.obsArr[Math.floor(Math.random() * (7 - 1) + 1)];
+        while(obs.active){
+            obs = this.obsArr[Math.floor(Math.random() * (7 - 1) + 1)];
+            count += 1;
+            console.log(count);
+            if(count >= 10){
+                return;
+            }
         }
+        obs.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        obs.reset();
+        obs.active = true;
+
+        //this.aciveObs.append(this.obs);
+        // switch(obsNum){
+        //     case 1:
+        //         if(!this.obs1.active){
+        //             this.obs1.lane = Math.floor(Math.random() * (7 - 1) + 1); // assign obs to be spawned new lane to spawn from
+        //             this.obs1.reset();                                        // reset gives us correct x position to spawn from
+        //             this.obs1.active = true;
+        //             break;
+        //         }
+        //     case 2:
+        //         if(!this.obs2.active){
+        //             this.obs2.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        //             this.obs2.reset();
+        //             this.obs2.active = true;
+        //             break;
+        //         }
+        //     case 3:
+        //         if(!this.obs3.active){
+        //             this.obs3.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        //             this.obs3.reset();
+        //             this.obs3.active = true;
+        //             break;
+        //         }
+        //     case 4:
+        //         if(!this.obs4.active){
+        //             this.obs4.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        //             this.obs4.reset();
+        //             this.obs4.active = true;
+        //             break;
+        //         }
+        //     case 5:
+        //         if(!this.obs5.active){
+        //             this.obs5.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        //             this.obs5.reset();
+        //             this.obs5.active = true;
+        //             break;
+        //         }
+        //     case 6:
+        //         if(!this.obs6.active){
+        //             this.obs6.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        //             this.obs6.reset();
+        //             this.obs6.active = true;
+        //             break;
+        //         }
+        //     case 7:
+        //         if(!this.obs7.active){
+        //             this.obs7.lane = Math.floor(Math.random() * (7 - 1) + 1);
+        //             this.obs7.reset();
+        //             this.obs7.active = true;
+        //             break;
+        //         }
+        // }
     }
     // spawnItemBlock works similar to obs spawning
     // choose a lane number between 2 and 7 and spawn it from that lane
@@ -251,9 +258,12 @@ class Play extends Phaser.Scene{
     // is also moving fastert
     adjustSpawnRate(){
         this.obsSpawnRate -= 200;
-        // if(this.obsSpawnRate < 100){
-        //     this.obsSpawnRate = 100;
-        // }
+        if(this.obsSpawnRate <= 100){
+            this.obsSpawnRate -= 10;
+        }
+        if(this.obsSpawnRate < 10){
+            this.obsSpawnRate = 1;
+        }
         console.log(this.obsSpawnRate);
     }
 }
