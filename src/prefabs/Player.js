@@ -17,8 +17,10 @@ class Player extends Phaser.GameObjects.Sprite{
         };
         this.itemJustReceived = false;
         this.health = 10;
-    }
-    create(){
+
+        //Pit hit interaction
+        this.hitPit = false;
+
     }
     update(){
         if(keySPACE.isUp && !this.lastUPState){
@@ -65,5 +67,13 @@ class Player extends Phaser.GameObjects.Sprite{
         this.lastLEFTUpState = keyLEFT.isUp;
         this.lastRIGHTUpState = keyRIGHT.isUp;
         this.lastUPState = keySPACE.isUp;
+
+        //if hit a pit
+        if(this.hitPit && this.scaleX > 0) {
+            this.scaleX -= 0.01;
+            this.scaleY -= 0.01;
+        }
+
+
     }
 }

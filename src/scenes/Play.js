@@ -6,9 +6,10 @@ class Play extends Phaser.Scene{
         this.load.image('square', './assets/square.png');
         this.load.image('wall', './assets/metal_wall.png');
         this.load.image('player', './assets/robo_player.png');
+        this.load.image('pit', './assets/small_hole.png');
     }
     create(){
-        this.obs1 = new Obstacle(this, 'wall', 0, 1).setOrigin(0.5, 0);
+        this.obs1 = new Pit(this, 'pit', 0, 1, 3).setOrigin(0.5, 0);
         this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
         this.obs3 = new Obstacle(this, 'wall', 0, 3).setOrigin(0.5, 0);
         this.obs4 = new Obstacle(this, 'wall', 0, 4).setOrigin(0.5, 0);
@@ -51,6 +52,9 @@ class Play extends Phaser.Scene{
             this.itemBlock.update(this.player.inventory.speed);
             this.player.update();
         }
+        else {
+            this.player.update();
+        }
         
 
         //these conditionals decide if the player receives an item
@@ -86,7 +90,7 @@ class Play extends Phaser.Scene{
         let hitCheck1 = this.checkCollision(this.player, this.obs1);
         if(hitCheck1 && ! this.player.hitJustReceived1){
             this.player.hitJustReceived1 = true;
-            this.player.health -= 1;
+            this.obs1.hit(this, this.player);
         }
         else if(!hitCheck1 && this.player.hitJustReceived1){
             this.player.hitJustReceived1 = false;
@@ -157,7 +161,7 @@ class Play extends Phaser.Scene{
             this.gameOver = true;
         }
         if(this.gameOver){
-            this.scene.start("menuScene");
+            //this.scene.start("menuScene");
         }
     }
     checkCollision(player, obs){
