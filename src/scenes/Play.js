@@ -14,6 +14,7 @@ class Play extends Phaser.Scene{
 
         //UI
         this.load.image('upgrades', './assets/upgrade_ui.png');
+        this.load.image('score', './assets/score_ui.png');
 
         //items
         this.load.image('jump', './assets/upgrade_jump.png');
@@ -22,12 +23,15 @@ class Play extends Phaser.Scene{
 
     }
     create(){
-
+        //background
         this.background = this.add.sprite(0,0,'buildings').setOrigin(0,0);
         this.road = this.add.sprite(0,0,'road').setOrigin(0,0);
         //this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('road', { start: 0, end: 3 }), frameRate: 4, repeat: -1 });
         //this.background.play('background');
 
+        //UI at top
+        this.score = this.add.image(430, 10, 'score').setOrigin(0,0);
+        this.upgrades = this.add.image(10, 10, 'upgrades').setOrigin(0,0);
 
         this.obs1 = new Pit(this, 'pit', 0, 1, 3).setOrigin(0.5, 0);
         this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
@@ -76,6 +80,7 @@ class Play extends Phaser.Scene{
         else {
             this.player.update();
         }
+        
         
 
         //these conditionals decide if the player receives an item

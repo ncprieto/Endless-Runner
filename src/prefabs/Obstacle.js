@@ -14,6 +14,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
 
         // flag for deciding if this object is actively moving or not
         this.active = false;
+        this.alpha = 0;
     }
     update(player) {
         //If object moved pass player move z axis upward
@@ -23,7 +24,14 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         else {
             this.setDepth(0);
         }
-        console.log(this.depth);
+        
+        //increase alpha if active
+        if(this.active && this.y > 80) {
+            this.alpha += 0.1;
+        }
+        else {
+            this.apha = 0;
+        }
 
 
         this.getXYSpeed(player.inventory.speed);
