@@ -6,9 +6,18 @@ class Play extends Phaser.Scene{
         this.load.image('square', './assets/square.png');
         this.load.image('wall', './assets/metal_wall.png');
         this.load.image('player', './assets/robo_player.png');
-        this.load.image('pit', './assets/small_hole.png');
+        this.load.image('pit', './assets/small_hole_v2.png');
+
+        //road
+        this.load.spritesheet('road', './assets/road_animation.png', { frameWidth: 704, frameHeight: 720 })
     }
     create(){
+
+        this.background = this.add.sprite(0,0,'road').setOrigin(0,0);
+        //this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('road', { start: 0, end: 3 }), frameRate: 4, repeat: -1 });
+        //this.background.play('background');
+
+
         this.obs1 = new Pit(this, 'pit', 0, 1, 3).setOrigin(0.5, 0);
         this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
         this.obs3 = new Obstacle(this, 'wall', 0, 3).setOrigin(0.5, 0);
@@ -17,7 +26,7 @@ class Play extends Phaser.Scene{
         this.obs6 = new Obstacle(this, 'wall', 0, 6).setOrigin(0.5, 0);
         this.obs7 = new Obstacle(this, 'wall', 0, 7).setOrigin(0.5, 0);
 
-        this.obsArr = [this.obs1, this.obs2, this.obs3, this.obs4, this.obs5, this.obs6, this.obs7];
+        this.obsArr = [this, this.obs1, this.obs2, this.obs3, this.obs4, this.obs5, this.obs6, this.obs7];
         //item block init
         this.itemBlock = new ItemBlock(this, 'square', 0, 4).setOrigin(0.5, 0);
 

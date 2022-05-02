@@ -72,6 +72,7 @@ class Player extends Phaser.GameObjects.Sprite{
         if(this.hitPit && this.scaleX > 0) {
             this.scaleX -= 0.01;
             this.scaleY -= 0.01;
+            this.angle += 1;
         }
 
 
