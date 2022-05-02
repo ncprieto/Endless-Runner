@@ -29,12 +29,7 @@ class Play extends Phaser.Scene{
         //this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('road', { start: 0, end: 3 }), frameRate: 4, repeat: -1 });
         //this.background.play('background');
 
-        //UI at top
-        this.scoreFrame = this.add.image(430, 10, 'score').setOrigin(0,0);
-        this.upgradeFrame = this.add.image(10, 10, 'upgrades').setOrigin(0,0);
-
-        this.score = 0;
-        this.scoreText = this.add.text(515, 10, this.score, { fontSize: 75, fill: "#000000" , fontFamily: "Arial"});
+        
 
         this.obs1 = new Pit(this, 'pit', 0, 1, 3).setOrigin(0.5, 0);
         this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
@@ -51,7 +46,21 @@ class Play extends Phaser.Scene{
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
         this.player = new Player(this, laneWidth * 5 + 32, game.config.height - laneWidth * 2, 'player', 0, 4).setOrigin(0.5,0);
-        //this.player.setDepth(0);
+
+        //UI at top
+        this.scoreFrame = this.add.image(430, 10, 'score').setOrigin(0,0);
+        this.upgradeFrame = this.add.image(10, 10, 'upgrades').setOrigin(0,0);
+        //Powerup icons
+        this.jumpIcon   =  this.add.image(95, 21, 'jump').setOrigin(0,0);
+        this.speedIcon  =  this.add.image(152.5, 21, 'speed').setOrigin(0,0);
+        this.shieldIcon =  this.add.image(210, 21, 'shield').setOrigin(0,0);
+        this.jumpNum    =  this.add.text(130, 55, "x" + this.player.inventory.jump, { fontSize: 25, fill: "#000000" , fontFamily: "Arial"});
+        this.speedNum   =  this.add.text(187.5, 55, "x" + this.player.inventory.speed, { fontSize: 25, fill: "#000000" , fontFamily: "Arial"});
+        this.shieldNum  =  this.add.text(245, 55, "x" + this.player.inventory.invuln, { fontSize: 25, fill: "#000000" , fontFamily: "Arial"});
+
+        //score
+        this.score = 0;
+        this.scoreText = this.add.text(520, 10, this.score, { fontSize: 75, fill: "#000000" , fontFamily: "Arial"});
 
         //Keys for input
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -85,10 +94,13 @@ class Play extends Phaser.Scene{
         }
 
         //update score
-        this.scoreText.text = this.score +=  1;
+        this.scoreText.text = this.score +=  (this.player.inventory.speed * 2 - 1);
         
         //Update upgrades
-        
+        this.jumpNum.text = "x" + this.player.inventory.jump;
+        this.speedNum.text = "x" + (this.player.inventory.speed * 2 - 1);
+        this.shieldNum.text = "x" + this.player.inventory.invuln;
+
         
 
         //these conditionals decide if the player receives an item

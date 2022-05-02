@@ -60,7 +60,7 @@ class Player extends Phaser.GameObjects.Sprite{
             }
         }
         if(keyRIGHT.isUp && !this.lastRIGHTUpState){
-            if(this.x < game.config.width - (laneWidth * 3)){
+            if(this.x < game.config.width - (laneWidth * 4)){
                 this.x += laneWidth;
                 this.lane += 1;
             }
