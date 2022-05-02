@@ -2,6 +2,7 @@ let config = {
     type: Phaser.auto,
     width: 704,
     height: 720,
+    //pixelArt: true,
     scene: [Menu, Play]
 }
 

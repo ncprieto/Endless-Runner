@@ -18,7 +18,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
     }
     update(player) {
         //If object moved pass player move z axis upward
-        if(this.y > this.yTarget + 20 && !player.isJumping) {
+        if(this.y > this.yTarget + 25 && !player.isJumping) {
             this.setDepth(2);   
         }
         else {

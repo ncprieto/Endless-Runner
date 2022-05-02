@@ -30,8 +30,11 @@ class Play extends Phaser.Scene{
         //this.background.play('background');
 
         //UI at top
-        this.score = this.add.image(430, 10, 'score').setOrigin(0,0);
-        this.upgrades = this.add.image(10, 10, 'upgrades').setOrigin(0,0);
+        this.scoreFrame = this.add.image(430, 10, 'score').setOrigin(0,0);
+        this.upgradeFrame = this.add.image(10, 10, 'upgrades').setOrigin(0,0);
+
+        this.score = 0;
+        this.scoreText = this.add.text(515, 10, this.score, { fontSize: 75, fill: "#000000" , fontFamily: "Arial"});
 
         this.obs1 = new Pit(this, 'pit', 0, 1, 3).setOrigin(0.5, 0);
         this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
@@ -80,6 +83,11 @@ class Play extends Phaser.Scene{
         else {
             this.player.update();
         }
+
+        //update score
+        this.scoreText.text = this.score +=  1;
+        
+        //Update upgrades
         
         
 
