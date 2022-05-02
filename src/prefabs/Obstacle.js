@@ -15,8 +15,18 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         // flag for deciding if this object is actively moving or not
         this.active = false;
     }
-    update(playerSpeed) {
-        this.getXYSpeed(playerSpeed);
+    update(player) {
+        //If object moved pass player move z axis upward
+        if(this.y > this.yTarget + 20 && !player.isJumping) {
+            this.setDepth(2);   
+        }
+        else {
+            this.setDepth(0);
+        }
+        console.log(this.depth);
+
+
+        this.getXYSpeed(player.inventory.speed);
         //Set scale to 1 as it gets closer to the bottom setting it in the range of [0.5, 1]
         this.setScale(0.5*(this.y/this.yTarget) + 0.5);
         //move in y direction in increments specified by this.ySpeed

@@ -8,12 +8,23 @@ class Play extends Phaser.Scene{
         this.load.image('player', './assets/robo_player.png');
         this.load.image('pit', './assets/small_hole_v2.png');
 
-        //road
-        this.load.spritesheet('road', './assets/road_animation.png', { frameWidth: 704, frameHeight: 720 })
+        //background
+        this.load.spritesheet('road', './assets/road_animation.png', { frameWidth: 704, frameHeight: 720 });
+        this.load.spritesheet('buildings', './assets/background_animation.png', {frameWidth: 704, frameHeight: 720});
+
+        //UI
+        this.load.image('upgrades', './assets/upgrade_ui.png');
+
+        //items
+        this.load.image('jump', './assets/upgrade_jump.png');
+        this.load.image('speed', './assets/upgrade_speed.png');
+        this.load.image('shield', './assets/upgrade_shield.png');
+
     }
     create(){
 
-        this.background = this.add.sprite(0,0,'road').setOrigin(0,0);
+        this.background = this.add.sprite(0,0,'buildings').setOrigin(0,0);
+        this.road = this.add.sprite(0,0,'road').setOrigin(0,0);
         //this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('road', { start: 0, end: 3 }), frameRate: 4, repeat: -1 });
         //this.background.play('background');
 
@@ -52,14 +63,14 @@ class Play extends Phaser.Scene{
     }
     update(){
         if(!this.gameOver){
-            this.obs1.update(this.player.inventory.speed);
-            this.obs2.update(this.player.inventory.speed);
-            this.obs3.update(this.player.inventory.speed);
-            this.obs4.update(this.player.inventory.speed);
-            this.obs5.update(this.player.inventory.speed);
-            this.obs6.update(this.player.inventory.speed);
-            this.obs7.update(this.player.inventory.speed);
-            this.itemBlock.update(this.player.inventory.speed);
+            this.obs1.update(this.player);
+            this.obs2.update(this.player);
+            this.obs3.update(this.player);
+            this.obs4.update(this.player);
+            this.obs5.update(this.player);
+            this.obs6.update(this.player);
+            this.obs7.update(this.player);
+            this.itemBlock.update(this.player);
             this.player.update();
         }
         else {

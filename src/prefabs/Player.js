@@ -20,9 +20,10 @@ class Player extends Phaser.GameObjects.Sprite{
 
         //Pit hit interaction
         this.hitPit = false;
-
+        this.setDepth(1);
     }
     update(){
+        
         if(keySPACE.isUp && !this.lastUPState){
             this.isJumping = true;
         }
