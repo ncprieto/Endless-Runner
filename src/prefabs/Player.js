@@ -75,7 +75,5 @@ class Player extends Phaser.GameObjects.Sprite{
             this.scaleY -= 0.01;
             this.angle += 1;
         }
-
-
     }
 }

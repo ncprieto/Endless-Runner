@@ -30,7 +30,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
             this.alpha += 0.1;
         }
         else {
-            this.apha = 0;
+            this.alpha = 0;
         }
 
 
@@ -57,6 +57,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         this.y = 50;
         this.x = 256 + ((this.lane - 1) * 32);
         this.setScale(0.5);
+        this.alpha = 0;
     }
     // moved objSpeed determiner to this function
     // this makes dynamically updating the speed of an object possible
