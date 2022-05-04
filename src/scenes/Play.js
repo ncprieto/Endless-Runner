@@ -5,11 +5,11 @@ class Play extends Phaser.Scene{
     preload(){
         this.load.image('square', './assets/square.png');
         this.load.image('wall', './assets/metal_wall.png');
-        this.load.image('player', './assets/robo_player.png');
+        this.load.spritesheet('player', './assets/character_animation.png',{ frameWidth: 64, frameHeight: 84 });
         this.load.image('pit', './assets/small_hole_v2.png');
 
         //background
-        this.load.spritesheet('road', './assets/road_animation.png', { frameWidth: 704, frameHeight: 720 });
+        this.load.image('road', './assets/road.png');
         this.load.spritesheet('buildings', './assets/background_animation.png', {frameWidth: 704, frameHeight: 720});
 
         //UI
@@ -26,8 +26,10 @@ class Play extends Phaser.Scene{
         //background
         this.background = this.add.sprite(0,0,'buildings').setOrigin(0,0);
         this.road = this.add.sprite(0,0,'road').setOrigin(0,0);
-        //this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('road', { start: 0, end: 3 }), frameRate: 4, repeat: -1 });
-        //this.background.play('background');
+        this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('buildings', { start: 1, end: 4   }), frameRate: 10, repeat: -1 });
+        this.background.play('background');
+
+        this.anims.create({ key: 'running', frames: this.anims.generateFrameNumbers('player', { start: 0, end: 6 }), frameRate: 10, repeat: -1 });
 
         
 
@@ -76,6 +78,11 @@ class Play extends Phaser.Scene{
         this.spawnItemClock = this.time.addEvent({delay: this.itemSpawnRate, callback: this.spawnItemBlock, callbackScope: this, loop: true});
 
         this.gameOver = false;
+
+        //play anims
+        this.player.play('running');
+
+
     }
     update(){
         if(!this.gameOver){
