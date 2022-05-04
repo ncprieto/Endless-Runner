@@ -9,7 +9,7 @@ class Play extends Phaser.Scene{
         this.load.image('pit', './assets/small_hole_v2.png');
 
         //background
-        this.load.image('road', './assets/road.png');
+        //this.load.image('road', './assets/road.png');
         this.load.spritesheet('buildings', './assets/background_animation.png', {frameWidth: 704, frameHeight: 720});
 
         //UI
@@ -21,12 +21,22 @@ class Play extends Phaser.Scene{
         this.load.image('speed', './assets/upgrade_speed.png');
         this.load.image('shield', './assets/upgrade_shield.png');
 
+        //load sounds
+        this.load.audio('music', './assets/RoboRunner_Game_Music.wav');
+        this.load.audio('jumpSound', './assets/jump.wav');
+        this.load.audio('laneSound', './assets/lane_change.wav');
+        this.load.audio('wallHit', './assets/wall_hit.wav');
+        this.load.audio('upgradeSound', './assets/upgrade.wav');
+        this.load.audio('deathSound', './assets/death.wav');
+        this.load.audio('holeHit', './assets/hole_hit.wav');
+
+
     }
     create(){
         //background
         this.background = this.add.sprite(0,0,'buildings').setOrigin(0,0);
-        this.road = this.add.sprite(0,0,'road').setOrigin(0,0);
-        this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('buildings', { start: 1, end: 4   }), frameRate: 10, repeat: -1 });
+        //this.road = this.add.sprite(0,0,'road').setOrigin(0,0);
+        this.anims.create({ key: 'background', frames: this.anims.generateFrameNumbers('buildings', { start: 0, end: 5   }), frameRate: 10, repeat: -1 });
         this.background.play('background');
 
         this.anims.create({ key: 'running', frames: this.anims.generateFrameNumbers('player', { start: 0, end: 6 }), frameRate: 10, repeat: -1 });
@@ -34,12 +44,12 @@ class Play extends Phaser.Scene{
         
 
         this.obs1 = new Pit(this, 'pit', 0, 1, 3).setOrigin(0.5, 0);
-        this.obs2 = new Obstacle(this, 'wall', 0, 2).setOrigin(0.5, 0);
-        this.obs3 = new Obstacle(this, 'wall', 0, 3).setOrigin(0.5, 0);
-        this.obs4 = new Obstacle(this, 'wall', 0, 4).setOrigin(0.5, 0);
-        this.obs5 = new Obstacle(this, 'wall', 0, 5).setOrigin(0.5, 0);
-        this.obs6 = new Obstacle(this, 'wall', 0, 6).setOrigin(0.5, 0);
-        this.obs7 = new Obstacle(this, 'wall', 0, 7).setOrigin(0.5, 0);
+        this.obs2 = new Wall(this, 'wall', 0, 2, 1).setOrigin(0.5, 0);
+        this.obs3 = new Wall(this, 'wall', 0, 3, 1).setOrigin(0.5, 0);
+        this.obs4 = new Wall(this, 'wall', 0, 4, 1).setOrigin(0.5, 0);
+        this.obs5 = new Wall(this, 'wall', 0, 5, 1).setOrigin(0.5, 0);
+        this.obs6 = new Wall(this, 'wall', 0, 6, 1).setOrigin(0.5, 0);
+        this.obs7 = new Wall(this, 'wall', 0, 7, 1).setOrigin(0.5, 0);
 
         this.obsArr = [this, this.obs1, this.obs2, this.obs3, this.obs4, this.obs5, this.obs6, this.obs7];
         this.hitReceivedArr = [this, this.hitReceived1, this.hitReceived2, this.hitReceived3, this.hitReceived4,
@@ -84,6 +94,10 @@ class Play extends Phaser.Scene{
         //play anims
         this.player.play('running');
 
+        //keys
+        keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+
 
     }
     update(){
@@ -97,17 +111,44 @@ class Play extends Phaser.Scene{
             this.obs7.update(this.player);
             this.itemBlock.update(this.player);
             this.player.update();
+
+            //update score
+            this.scoreText.text = this.score +=  (this.player.inventory.speed * 2 - 1);
         }
         else {
+            let menuConfig = {
+                fontFamily: 'Courier',
+                fontSize: '28px',
+                backgroundColor: '#87ceeb',
+                color: '#000000',
+                align: 'right',
+                padding: {
+                top: 5,
+                bottom: 5,
+                },
+                fixedWidth: 0
+            }
+            this.add.text(game.config.width/2, game.config.height/2-32, 'Game Over', menuConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2, 'Press (F) to Start Again', menuConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2+32, 'Press (R) to return to main menu', menuConfig).setOrigin(0.5);
             this.player.update();
-        }
 
-        //update score
-        this.scoreText.text = this.score +=  (this.player.inventory.speed * 2 - 1);
+            if(Phaser.Input.Keyboard.JustDown(keyF)){
+                this.sound.stopAll();
+                this.scene.restart();
+                this.sound.play('music');
+            }
+            if(Phaser.Input.Keyboard.JustDown(keyR)) {
+                this.sound.stopAll();
+                this.scene.start('menuScene');
+            }
+
+
+        }
         
         //Update upgrades
-        this.jumpNum.text = "x" + this.player.inventory.jump;
-        this.speedNum.text = "x" + (this.player.inventory.speed * 2 - 1);
+        this.jumpNum.text = "x" + (this.player.inventory.jump * 2 - 2);
+        this.speedNum.text = "x" + (this.player.inventory.speed * 2 - 2);
         this.shieldNum.text = "x" + this.player.inventory.invuln;
 
         
@@ -118,6 +159,7 @@ class Play extends Phaser.Scene{
         //player has just received one or not
         let itemCheck = this.checkCollision(this.player, this.itemBlock);
         if(itemCheck && !this.player.itemJustReceived){
+            this.sound.play('upgradeSound');
             let spdCheck = this.itemBlock.giveRandpUp(this.player, this.obsSpawnRate);
             if(spdCheck){
                 this.adjustSpawnRate();
@@ -141,11 +183,8 @@ class Play extends Phaser.Scene{
             else{
                 let hitCheck = this.checkCollision(this.player, this.obsArr[i]);
                 if(hitCheck && !this.hitReceivedArr[i]){
+                    this.obsArr[i].hit(this.player);
                     this.hitReceivedArr[i] = true;
-                    if(this.obsArr[i] == this.obs1){      // player falls into pit
-                        this.obs1.hit(this, this.player);
-                    }
-                    this.player.health -= 1;
                 }
                 else if(!hitCheck && this.hitReceivedArr[i]){
                     this.hitReceivedArr[i] = false;

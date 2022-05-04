@@ -2,7 +2,7 @@ class ItemBlock extends Obstacle{
     constructor(scene, texture, frame, laneNumber){
         super(scene, texture, frame, laneNumber);
         scene.add.existing(this);
-        this.pUpArr = ['speed'];
+        this.pUpArr = ['speed', 'jump', 'invuln'];
     }
     giveRandpUp(player){
         let item = this.pUpArr[Math.floor(Math.random() * this.pUpArr.length)];

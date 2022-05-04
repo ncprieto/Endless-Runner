@@ -95,4 +95,7 @@ class Obstacle extends Phaser.GameObjects.Sprite {
         this.xSpeed = xIncrements;
         this.ySpeed = 542*objSpeed/(542); //Scaled to 1 to reduce large numbers in constructor
     }
+    hit(player) {
+        return;
+    }
 }

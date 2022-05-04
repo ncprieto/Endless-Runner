@@ -2,6 +2,7 @@ class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame, laneNum){
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
+        this.scene = scene;
         this.lane = laneNum;
         // these track whether the last up state of the keys was down or not
         this.lastLEFTUpState = true;
@@ -21,13 +22,16 @@ class Player extends Phaser.GameObjects.Sprite{
         //Pit hit interaction
         this.hitPit = false;
         this.setDepth(1);
+        this.isDead = false;
     }
     update(){
         
-        if(keySPACE.isUp && !this.lastUPState){
+        if(keySPACE.isUp && !this.lastUPState && !this.scene.gameOver && !this.isJumping){
+            this.scene.sound.play('jumpSound');
             this.isJumping = true;
         }
         if(this.isJumping){
+            
             let newScale;
             // finds whether the scale of the spirte has reached the apex of the jump
             if(this.scaleX >= (1 + (this.inventory.jump / 7))){
@@ -53,14 +57,16 @@ class Player extends Phaser.GameObjects.Sprite{
         }
         // if current up state is true and last up state is false
         // then we know that the key was released
-        if(keyLEFT.isUp && !this.lastLEFTUpState){
+        if(keyLEFT.isUp && !this.lastLEFTUpState && !this.scene.gameOver){
+            this.scene.sound.play('laneSound');
             if(this.x > laneWidth + 96){
                 this.x -= laneWidth;
                 this.lane -= 1;
             }
         }
-        if(keyRIGHT.isUp && !this.lastRIGHTUpState){
-            if(this.x < game.config.width - (laneWidth * 4)){
+        if(keyRIGHT.isUp && !this.lastRIGHTUpState && !this.scene.gameOver){
+            this.scene.sound.play('laneSound');
+            if(this.x < game.config.width - (laneWidth * 3)){
                 this.x += laneWidth;
                 this.lane += 1;
             }
@@ -74,6 +80,10 @@ class Player extends Phaser.GameObjects.Sprite{
             this.scaleX -= 0.01;
             this.scaleY -= 0.01;
             this.angle += 1;
+        }
+        if(this.isDead) {
+            this.x = this.x + Math.sin(this.y);
+            this.y += 2;
         }
     }
 }
