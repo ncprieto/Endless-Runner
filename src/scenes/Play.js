@@ -20,6 +20,7 @@ class Play extends Phaser.Scene{
         this.load.image('jump', './assets/upgrade_jump.png');
         this.load.image('speed', './assets/upgrade_speed.png');
         this.load.image('shield', './assets/upgrade_shield.png');
+        this.load.image('upgrade', './assets/upgrade_random.png');
 
         //load sounds
         this.load.audio('music', './assets/RoboRunner_Game_Music.wav');
@@ -55,7 +56,7 @@ class Play extends Phaser.Scene{
         this.hitReceivedArr = [this, this.hitReceived1, this.hitReceived2, this.hitReceived3, this.hitReceived4,
                                      this.hitReceived5, this.hitReceived6, this.hitReceived7];
         //item block init
-        this.itemBlock = new ItemBlock(this, 'square', 0, 4).setOrigin(0.5, 0);
+        this.itemBlock = new ItemBlock(this, 'upgrade', 0, 4).setOrigin(0.5, 0);
 
         // laneWidth * 2 places top left of sprite at 2 64 x 64 squares away from the bottom
         // Added + 32 to offset the new origin of 0.5,0
